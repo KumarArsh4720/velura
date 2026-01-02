@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Velura</title>
+  <link rel="icon" type="image/png" href="/assets/favicon.DFpwLE5M.webp">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <script type="module" crossorigin src="/assets/home.CzRdB_MX.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill.YP0FEG5d.js">
+  <link rel="modulepreload" crossorigin href="/assets/apiConfig.BlVLoSjf.js">
+  <link rel="modulepreload" crossorigin href="/assets/velura-header.DX1e0Hos.js">
+  <link rel="stylesheet" crossorigin href="/assets/home.CISsS1RZ.css">
+</head>
+
+<body>
+  <section>
+    <div class="main">
+      <!-- Header -->
+      <velura-header transparent no-search></velura-header>
+
+      <!-- Hero Section -->
+      <div class="box"></div>
+
+      <div class="hero">
+        <span>Enjoy big movies, hit series and more.</span>
+        <span>Join today for free. Cancel anytime.</span>
+        <span>Ready to watch? Enter your email to create or restart your membership.</span>
+
+        <!-- 🎬 Membership Email Form -->
+        <div class="membership-container">
+          <form class="membership-form" id="emailForm">
+            <label for="email" style="display: none;">Email address</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email address" required
+              class="email-input" />
+            <button type="submit" class="get-started-btn">Get Started</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <velura-separator type="glow"></velura-separator>
+
+
+  <section class="showcase-section">
+    <div class="showcase-container">
+
+      <!-- LEFT CONTENT -->
+      <div class="showcase-content">
+        <h2 class="showcase-title">Unlimited Entertainment Awaits</h2>
+        <p class="showcase-description">
+          Dive into a world of blockbuster movies, binge-worthy series, and exclusive anime content.
+          With Velura, your entertainment journey never ends.
+        </p>
+
+        <ul class="showcase-features">
+          <li><i class="bi bi-check-circle"></i> Stream on any device, anywhere</li>
+          <li><i class="bi bi-check-circle"></i> No ads, ever</li>
+          <li><i class="bi bi-check-circle"></i> Download for offline viewing</li>
+          <li><i class="bi bi-check-circle"></i> New content added weekly</li>
+        </ul>
+
+        <div class="showcase-cta">
+          <p>Join millions of satisfied members today</p>
+          <button class="subscribe-btn">Subscribe Now for <s>$5/month</s> <b>Free!</b></button>
+          <p class="cta-note">Cancel anytime. First month free for new members.</p>
+        </div>
+      </div>
+
+      <!-- RIGHT POSTER WALL -->
+      <div class="posterwall">
+        <div class="poster-column movie-col"></div>
+        <div class="poster-column anime-col"></div>
+        <div class="poster-column series-col"></div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Add this section after the FAQ section in your index.html -->
+  <section class="stats-section">
+    <div class="stats-container">
+      <div class="stats-header">
+        <h2 class="stats-title">Our Content Library</h2>
+        <p class="stats-subtitle">Discover endless entertainment possibilities</p>
+      </div>
+
+      <div class="stats-grid">
+        <!-- Movies Stat -->
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="bi bi-film"></i>
+          </div>
+          <div class="stat-content">
+            <div class="stat-number-wrapper">
+              <div class="stat-number" data-target="100">0</div>
+              <div class="stat-suffix">K+</div>
+            </div>
+            <div class="stat-label">Movies</div>
+            <div class="stat-description">From classic cinema to latest blockbusters</div>
+          </div>
+          <div class="stat-glow"></div>
+        </div>
+
+        <!-- TV Shows Stat -->
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="bi bi-tv"></i>
+          </div>
+          <div class="stat-content">
+            <div class="stat-number-wrapper">
+              <div class="stat-number" data-target="70">0</div>
+              <div class="stat-suffix">K+</div>
+            </div>
+            <div class="stat-label">TV Shows</div>
+            <div class="stat-description">Binge-worthy series from around the globe</div>
+          </div>
+          <div class="stat-glow"></div>
+        </div>
+
+        <!-- Anime Stat -->
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="bi bi-controller"></i>
+          </div>
+          <div class="stat-content">
+            <div class="stat-number-wrapper">
+              <div class="stat-number" data-target="5">0</div>
+              <div class="stat-suffix">K+</div>
+            </div>
+            <div class="stat-label">Anime Series</div>
+            <div class="stat-description">Exclusive anime content & classics</div>
+          </div>
+          <div class="stat-glow"></div>
+        </div>
+      </div>
+
+      <div class="stats-footer">
+        <p>And counting... New content added every week</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Separator to use anywhere you want -->
+  <div class="section-separator"></div>
+
+  <!-- Updated FAQ Section (without email form) -->
+  <section class="faq-section">
+    <div class="faq-container">
+      <div class="faq-header">
+        <h2 class="faq-title">Frequently Asked Questions</h2>
+        <p class="faq-subtitle">Everything you need to know about Velura</p>
+      </div>
+
+      <div class="faq-grid">
+        <!-- FAQ Item 1 -->
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>What is Velura and how does it work?</span>
+            <i class="bi bi-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Velura is a streaming service that offers a wide variety of award-winning TV shows, movies, anime,
+              documentaries, and more on thousands of internet-connected devices. You can watch as much as you want,
+              whenever you want without a single commercial – all for one low monthly price.</p>
+          </div>
+        </div>
+
+        <!-- FAQ Item 2 -->
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>How much does Velura cost?</span>
+            <i class="bi bi-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Watch Velura on your smartphone, tablet, Smart TV, laptop, or streaming device, all for one fixed monthly
+              fee. <s>Plans range from $5 to $15 a month</s>. Its <b>FREE</b> for everyone. No extra costs, no contracts.</p>
+          </div>
+        </div>
+
+        <!-- FAQ Item 3 -->
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Where can I watch?</span>
+            <i class="bi bi-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Watch anywhere, anytime. Sign in with your Velura account to watch instantly on the web at velura.com
+              from your personal computer or on any internet-connected device that offers the Velura app.</p>
+          </div>
+        </div>
+
+        <!-- FAQ Item 4 -->
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>How do I cancel?</span>
+            <i class="bi bi-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Velura is flexible. There are no pesky contracts and no commitments. You can easily cancel your account
+              online in two clicks. There are no cancellation fees – start or stop your account anytime.</p>
+          </div>
+        </div>
+
+        <!-- FAQ Item 5 -->
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>What can I watch on Velura?</span>
+            <i class="bi bi-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>Velura has an extensive library of feature films, documentaries, TV shows, anime, award-winning Velura
+              originals, and more. Watch as much as you want, anytime you want.</p>
+          </div>
+        </div>
+
+        <!-- FAQ Item 6 -->
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Is Velura good for kids?</span>
+            <i class="bi bi-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+            <p>The Velura Kids experience is included in your membership to give parents control while kids enjoy
+              family-friendly TV shows and movies in their own space with PIN-protected parental controls.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Updated CTA without email form -->
+      <div class="faq-cta">
+        <p class="cta-text">Join millions of satisfied members today and start streaming instantly</p>
+        <a href="/browse"><button class="cta-button">
+            <span>Start Your Journey</span>
+            <i class="bi bi-arrow-right"></i>
+          </button></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Unique Footer Design -->
+  <footer class="main-footer">
+    <div class="footer-waves">
+      <div class="wave wave-1"></div>
+      <div class="wave wave-2"></div>
+      <div class="wave wave-3"></div>
+    </div>
+
+    <div class="footer-container">
+      <div class="footer-main">
+        <div class="footer-brand">
+          <img src="data:image/webp;base64,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" alt="Velura" class="footer-logo">
+          <p class="footer-tagline">The future of streaming is here. Unlimited entertainment, one subscription.</p>
+          <div class="social-links">
+            <a href="#" class="social-link">
+              <i class="bi bi-twitter-x"></i>
+            </a>
+            <a href="#" class="social-link">
+              <i class="bi bi-facebook"></i>
+            </a>
+            <a href="#" class="social-link">
+              <i class="bi bi-instagram"></i>
+            </a>
+            <a href="#" class="social-link">
+              <i class="bi bi-youtube"></i>
+            </a>
+            <a href="#" class="social-link">
+              <i class="bi bi-discord"></i>
+            </a>
+          </div>
+        </div>
+
+        <div class="footer-links">
+          <div class="link-group">
+            <h4>Navigation</h4>
+            <ul>
+              <li><a href="/home">Home</a></li>
+              <li><a href="/browse">Movies</a></li>
+              <li><a href="/browse">TV Shows</a></li>
+              <li><a href="/browse">Anime</a></li>
+              <li><a href="/browse">New & Popular</a></li>
+            </ul>
+          </div>
+
+          <div class="link-group">
+            <h4>Account</h4>
+            <ul>
+              <li><a href="/account">My Profile</a></li>
+              <li><a href="/account">Subscription</a></li>
+              <li><a href="/browse">Watchlist</a></li>
+              <li><a href="/browse">Watch History</a></li>
+              <li><a href="/account">Settings</a></li>
+            </ul>
+          </div>
+
+          <div class="link-group">
+            <h4>Support</h4>
+            <ul>
+              <li><a href="/support">Help Center</a></li>
+              <li><a href="/support">Contact Us</a></li>
+              <li><a href="/support">System Status</a></li>
+              <li><a href="/support">Feedback</a></li>
+              <li><a href="/support">FAQ</a></li>
+            </ul>
+          </div>
+
+          <!-- <div class="link-group">
+            <h4>Company</h4>
+            <ul>
+              <li><a href="#">About Us</a></li>
+              <li><a href="#">Careers</a></li>
+              <li><a href="#">Press</a></li>
+              <li><a href="#">Legal</a></li>
+              <li><a href="#">Partners</a></li>
+            </ul>
+          </div> -->
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <div class="footer-legal">
+          <div class="legal-links">
+            <a href="#" title="SOON!">Privacy Policy</a>
+            <a href="#" title="SOON!">Terms of Service</a>
+            <a href="#" title="SOON!">Cookie Policy</a>
+            <a href="#" title="SOON!">Cookie Preferences</a>
+          </div>
+          <div class="copyright">
+            &copy; 2024 Velura Streaming. All rights reserved.
+          </div>
+        </div>
+
+        <div class="footer-badges">
+          <div class="badge">
+            <i class="bi bi-shield-check"></i>
+            <span>Secure Streaming</span>
+          </div>
+          <div class="badge">
+            <i class="bi bi-globe"></i>
+            <span>Available Worldwide</span>
+          </div>
+          <div class="badge">
+            <i class="bi bi-device-hdd"></i>
+            <span>4K Supported</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+
+</body>
+
+</html>

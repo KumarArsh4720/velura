@@ -1,0 +1,20 @@
+{
+    "keep": {
+        "days": true,
+        "amount": 7
+    },
+    "auditLog": "/home/cyberknight/Desktop/backup/backup-latest/1 JAN/vol 3/VELURA/frontend/logs/audits/frontend-errors-audit.json",
+    "files": [
+        {
+            "date": 1767371876601,
+            "name": "/home/cyberknight/Desktop/backup/backup-latest/1 JAN/vol 3/VELURA/frontend/logs/frontend-errors-2026-01-02.log",
+            "hash": "2ac3c02475c028f76839bdc78f0d3419e18d8786c8724d0d6549578d623ee8ac"
+        },
+        {
+            "date": 1767379099570,
+            "name": "/home/cyberknight/Desktop/backup/backup-latest/1 JAN/vol 3/VELURA/frontend/logs/frontend-errors-2026-01-03.log",
+            "hash": "ff131fe16b3719e22f2a73dab9d190bd3969f655275f9729b377ce83ce8c4375"
+        }
+    ],
+    "hashType": "sha256"
+}

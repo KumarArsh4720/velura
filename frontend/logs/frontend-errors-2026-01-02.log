@@ -1,0 +1,4 @@
+{"level":"error","message":"TMDB API check failed: The operation was aborted.","timestamp":"2026-01-02 21:08:52"}
+{"level":"error","message":"Backend check failed: request to http://localhost:5000/health failed, reason: ","timestamp":"2026-01-02 21:34:10"}
+{"level":"error","message":"TMDB API check failed: request to http://localhost:5000/api/tmdb/health failed, reason: ","timestamp":"2026-01-02 21:34:10"}
+{"level":"error","message":"TMDB API check failed: The operation was aborted.","timestamp":"2026-01-02 22:08:01"}

@@ -1,0 +1,12 @@
+{"level":"info","message":"Starting Vite dev server...","timestamp":"2026-01-03 00:08:19"}
+{"level":"info","message":"Backend health check passed","timestamp":"2026-01-03 00:08:19"}
+{"level":"info","message":"TMDB API health check passed","timestamp":"2026-01-03 00:08:20"}
+{"level":"info","message":"Frontend server running on http://localhost:5173","timestamp":"2026-01-03 00:08:20"}
+{"level":"info","message":"Vite HMR enabled - watching for file changes","timestamp":"2026-01-03 00:08:20"}
+{"level":"info","message":"Frontend server shutting down gracefully","timestamp":"2026-01-03 00:21:06"}
+{"level":"info","message":"Starting Vite dev server...","timestamp":"2026-01-03 00:58:03"}
+{"level":"error","message":"Backend check failed: request to http://localhost:5000/health failed, reason: ","timestamp":"2026-01-03 00:58:03"}
+{"level":"error","message":"TMDB API check failed: request to http://localhost:5000/api/tmdb/health failed, reason: ","timestamp":"2026-01-03 00:58:03"}
+{"level":"info","message":"Frontend server running on http://localhost:5173","timestamp":"2026-01-03 00:58:03"}
+{"level":"info","message":"Vite HMR enabled - watching for file changes","timestamp":"2026-01-03 00:58:03"}
+{"level":"info","message":"Frontend server shutting down gracefully","timestamp":"2026-01-03 00:58:20"}

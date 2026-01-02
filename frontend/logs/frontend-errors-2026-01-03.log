@@ -1,0 +1,2 @@
+{"level":"error","message":"Backend check failed: request to http://localhost:5000/health failed, reason: ","timestamp":"2026-01-03 00:58:03"}
+{"level":"error","message":"TMDB API check failed: request to http://localhost:5000/api/tmdb/health failed, reason: ","timestamp":"2026-01-03 00:58:03"}

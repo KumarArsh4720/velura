@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse - Velura</title>
+    <link rel="icon" type="image/png" href="/assets/favicon.DFpwLE5M.webp">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <script type="module" crossorigin src="/assets/browse.-nFstfE8.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill.YP0FEG5d.js">
+  <link rel="modulepreload" crossorigin href="/assets/apiConfig.BlVLoSjf.js">
+  <link rel="modulepreload" crossorigin href="/assets/velura-header.DX1e0Hos.js">
+  <link rel="stylesheet" crossorigin href="/assets/browse.C1zW3O7U.css">
+</head>
+
+<body>
+    <!-- SIMPLE AUTH CHECK - NON-MODULE VERSION -->
+    <script>
+        // Check if auth already ran
+        if (window._authChecked) {
+            console.log('Auth already checked, skipping...');
+        } else {
+            window._authChecked = true;
+
+            // Wait for DOM to be ready
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', checkAuth);
+            } else {
+                checkAuth();
+            }
+
+            async function checkAuth() {
+                console.log('🔐 Checking authentication...');
+
+                const token = localStorage.getItem('velura_token');
+                const user = localStorage.getItem('velura_user');
+
+                if (!token || !user) {
+                    console.log('❌ Not authenticated, redirecting...');
+                    const returnUrl = window.location.pathname;
+                    window.location.href = `/auth.html?redirect=${encodeURIComponent(returnUrl)}`;
+                    return;
+                }
+
+                console.log('✅ User has token, verifying...');
+
+                try {
+                    const response = await fetch('/api/auth/user-info', {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+
+                    if (!response.ok) {
+                        console.log('❌ Token invalid');
+                        localStorage.removeItem('velura_token');
+                        localStorage.removeItem('velura_user');
+                        window.location.href = '/auth.html';
+                        return;
+                    }
+
+                    console.log('✅ Authentication successful');
+                } catch (error) {
+                    console.error('Auth check failed:', error);
+                }
+            }
+        }
+    </script>
+
+    <!-- Keep the existing override script -->
+    <script>
+        // GLOBAL OVERRIDE - This runs FIRST
+        window.watchContent = function (youtubeId, title) {
+            console.log('OVERRIDE: watchContent called', { youtubeId, title });
+
+            // Get TMDB ID from modal
+            const modal = document.getElementById('detailModal');
+            let tmdbId = null;
+
+            // Try multiple ways to get TMDB ID
+            if (modal) {
+                tmdbId = modal.querySelector('.watch-btn')?.dataset?.tmdbId ||
+                    modal.querySelector('[data-tmdb-id]')?.dataset?.tmdbId ||
+                    modal.dataset.tmdbId;
+            }
+
+            console.log('Found TMDB ID:', tmdbId);
+
+            if (tmdbId) {
+                // Use player system
+                if (window.VeluraPlayer && typeof window.VeluraPlayer.openPlayer === 'function') {
+                    window.VeluraPlayer.openPlayer(tmdbId, 'movie', 1, 1, title);
+                } else {
+                    // ✅ UPDATED: Use Vite proxy path
+                    const playData = btoa(JSON.stringify({
+                        id: tmdbId,
+                        type: 'movie',
+                        title: title
+                    }));
+                    window.location.href = '/php/player/play.php?play=' + encodeURIComponent(playData);
+                }
+            } else {
+                console.error('No TMDB ID found in modal!');
+                // Fallback to YouTube only if we HAVE youtubeId AND NO tmdbId
+                if (youtubeId) {
+                    window.open(`https://www.youtube.com/watch?v=${youtubeId}`, '_blank');
+                }
+            }
+        };
+
+        // Also override addToWatchlist to prevent alerts
+        window.addToWatchlist = function (id, type) {
+            console.log('Add to watchlist:', id, type);
+            // Implement your watchlist logic here
+        };
+
+        // Override shareContent
+        window.shareContent = function (title, id) {
+            console.log('Share:', title, id);
+            // Implement share logic here
+        };
+    </script>
+
+    <section>
+        <div class="main">
+            <!-- Header -->
+            <velura-header transparent></velura-header>
+
+            <!-- Hero Container - Merged box and hero content -->
+            <div class="hero-container">
+                <!-- Background Video Container -->
+                <div class="video-background" id="videoBackground">
+                    <!-- YouTube iframe will be inserted here -->
+                </div>
+
+                <!-- Video overlay for gradient -->
+                <div class="video-overlay"></div>
+
+                <!-- Unmute Button -->
+                <div class="audio-control" id="audioControl">
+                    <div class="mute-icon" id="muteIcon">🔇</div>
+                </div>
+
+                <!-- Content - Now aligned to left and vertically centered -->
+                <div class="hero-content">
+                    <h1 class="hero-title" id="heroTitle">Loading...</h1>
+                    <p class="hero-description" id="heroDescription"></p>
+                    <div class="hero-meta">
+                        <span class="rating" id="heroRating">⭐ 0.0</span>
+                        <span class="release-year" id="heroYear">2024</span>
+                        <span class="genre" id="heroGenre">Action</span>
+                    </div>
+                    <div class="hero-buttons">
+                        <button class="btn btn-watch">
+                            <span class="btn-icon">▶</span>
+                            Watch Now
+                        </button>
+                        <button class="btn btn-info">
+                            <span class="btn-icon">ℹ</span>
+                            More Info
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TRENDING SECTIONS -->
+    <section class="trending-sections">
+        <!-- Recommendation Section -->
+        <div class="trending-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="bi bi-stars"></i>
+                    Recommended For You
+                </h2>
+                <div class="section-controls">
+                    <button class="scroll-btn left" data-section="recommended">
+                        <i class="bi bi-chevron-left"></i>
+                    </button>
+                    <button class="scroll-btn right" data-section="recommended">
+                        <i class="bi bi-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="trending-carousel recommended" data-section="recommended"></div>
+        </div>
+
+        <!-- Trending Movies -->
+        <div class="trending-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="bi bi-film"></i>
+                    Trending Movies
+                </h2>
+                <div class="section-controls">
+                    <button class="scroll-btn left" data-section="movies">
+                        <i class="bi bi-chevron-left"></i>
+                    </button>
+                    <button class="scroll-btn right" data-section="movies">
+                        <i class="bi bi-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="trending-carousel movies" data-section="movies"></div>
+        </div>
+
+        <!-- Trending Web Series -->
+        <div class="trending-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="bi bi-tv"></i>
+                    Trending Web Series
+                </h2>
+                <div class="section-controls">
+                    <button class="scroll-btn left" data-section="series">
+                        <i class="bi bi-chevron-left"></i>
+                    </button>
+                    <button class="scroll-btn right" data-section="series">
+                        <i class="bi bi-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="trending-carousel series" data-section="series"></div>
+        </div>
+
+        <!-- Trending TV Shows -->
+        <div class="trending-section">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="bi bi-broadcast"></i>
+                    Trending TV Shows
+                </h2>
+                <div class="section-controls">
+                    <button class="scroll-btn left" data-section="tv">
+                        <i class="bi bi-chevron-left"></i>
+                    </button>
+                    <button class="scroll-btn right" data-section="tv">
+                        <i class="bi bi-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="trending-carousel tv" data-section="tv"></div>
+        </div>
+    </section>
+
+    <!-- Modal for trailer/details -->
+    <div class="modal" id="detailModal">
+        <!-- Modal content will be inserted by trending.js -->
+    </div>
+
+    <section>
+        <!-- Unique Footer Design -->
+        <footer class="main-footer">
+            <div class="footer-waves">
+                <div class="wave wave-1"></div>
+                <div class="wave wave-2"></div>
+                <div class="wave wave-3"></div>
+            </div>
+
+            <div class="footer-container">
+                <div class="footer-main">
+                    <div class="footer-brand">
+                        <img src="data:image/webp;base64,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" alt="Velura" class="footer-logo">
+                        <p class="footer-tagline">The future of streaming is here. Unlimited entertainment, one
+                            subscription.</p>
+                        <div class="social-links">
+                            <a href="#" class="social-link">
+                                <i class="bi bi-twitter-x"></i>
+                            </a>
+                            <a href="#" class="social-link">
+                                <i class="bi bi-facebook"></i>
+                            </a>
+                            <a href="#" class="social-link">
+                                <i class="bi bi-instagram"></i>
+                            </a>
+                            <a href="#" class="social-link">
+                                <i class="bi bi-youtube"></i>
+                            </a>
+                            <a href="#" class="social-link">
+                                <i class="bi bi-discord"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="footer-links">
+                        <div class="link-group">
+                            <h4>Navigation</h4>
+                            <ul>
+                                <li><a href="#">Home</a></li>
+                                <li><a href="#">Movies</a></li>
+                                <li><a href="#">TV Shows</a></li>
+                                <li><a href="#">New & Popular</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="link-group">
+                            <h4>Account</h4>
+                            <ul>
+                                <li><a href="#">My Profile</a></li>
+                                <li><a href="#">Subscription</a></li>
+                                <li><a href="#">Watchlist</a></li>
+                                <li><a href="#">Watch History</a></li>
+                                <li><a href="#">Settings</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="link-group">
+                            <h4>Support</h4>
+                            <ul>
+                                <li><a href="#">Help Center</a></li>
+                                <li><a href="#">Contact Us</a></li>
+                                <li><a href="#">System Status</a></li>
+                                <li><a href="#">Feedback</a></li>
+                                <li><a href="#">FAQ</a></li>
+                            </ul>
+                        </div>
+
+                        <div class="link-group">
+                            <h4>Company</h4>
+                            <ul>
+                                <li><a href="#">About Us</a></li>
+                                <li><a href="#">Careers</a></li>
+                                <li><a href="#">Press</a></li>
+                                <li><a href="#">Legal</a></li>
+                                <li><a href="#">Partners</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="footer-bottom">
+                    <div class="footer-legal">
+                        <div class="legal-links">
+                            <a href="#">Privacy Policy</a>
+                            <a href="#">Terms of Service</a>
+                            <a href="#">Cookie Policy</a>
+                            <a href="#">Cookie Preferences</a>
+                        </div>
+                        <div class="copyright">
+                            &copy; 2024 Velura Streaming. All rights reserved.
+                        </div>
+                    </div>
+
+                    <div class="footer-badges">
+                        <div class="badge">
+                            <i class="bi bi-shield-check"></i>
+                            <span>Secure Streaming</span>
+                        </div>
+                        <div class="badge">
+                            <i class="bi bi-globe"></i>
+                            <span>Available Worldwide</span>
+                        </div>
+                        <div class="badge">
+                            <i class="bi bi-device-hdd"></i>
+                            <span>4K Supported</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </section>
+
+    <!-- Full Page Search Results -->
+    <div id="fullPageSearch" class="search-results-fullpage" style="display: none;">
+        <div class="search-results-header">
+            <h1 class="search-results-title">
+                <i class="bi bi-search"></i>
+                Results for "<span id="fullSearchQueryText"></span>"
+                <span id="searchResultsCount" class="search-results-count"></span>
+            </h1>
+
+            <div class="search-quick-actions" id="quickActions">
+                <!-- Quick action buttons will be added here -->
+            </div>
+
+            <button class="clear-search-full" id="clearSearchFullBtn">
+                <i class="bi bi-arrow-left"></i>
+                Back to Browse
+            </button>
+        </div>
+
+        <div class="search-results-grid-full" id="fullSearchResultsGrid">
+            <!-- Full page search results will be inserted here -->
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay" style="display: none;">
+        <div class="loading-container">
+            <!-- Sand Timer Loader SVG -->
+            <svg aria-label="loader being flipped clockwise and circled by three white curves fading in and out"
+                role="img" height="56px" width="56px" viewBox="0 0 56 56" class="loader">
+                <clipPath id="sand-mound-top">
+                    <path
+                        d="M 14.613 13.087 C 15.814 12.059 19.3 8.039 20.3 6.539 C 21.5 4.789 21.5 2.039 21.5 2.039 L 3 2.039 C 3 2.039 3 4.789 4.2 6.539 C 5.2 8.039 8.686 12.059 9.887 13.087 C 11 14.039 12.25 14.039 12.25 14.039 C 12.25 14.039 13.5 14.039 14.613 13.087 Z"
+                        class="loader__sand-mound-top"></path>
+                </clipPath>
+                <clipPath id="sand-mound-bottom">
+                    <path
+                        d="M 14.613 20.452 C 15.814 21.48 19.3 25.5 20.3 27 C 21.5 28.75 21.5 31.5 21.5 31.5 L 3 31.5 C 3 31.5 3 28.75 4.2 27 C 5.2 25.5 8.686 21.48 9.887 20.452 C 11 19.5 12.25 19.5 12.25 19.5 C 12.25 19.5 13.5 19.5 14.613 20.452 Z"
+                        class="loader__sand-mound-bottom"></path>
+                </clipPath>
+                <g transform="translate(2,2)">
+                    <g transform="rotate(-90,26,26)" stroke-linecap="round" stroke-dashoffset="153.94"
+                        stroke-dasharray="153.94 153.94" stroke="hsl(0,0%,100%)" fill="none">
+                        <circle transform="rotate(0,26,26)" r="24.5" cy="26" cx="26" stroke-width="2.5"
+                            class="loader__motion-thick"></circle>
+                        <circle transform="rotate(90,26,26)" r="24.5" cy="26" cx="26" stroke-width="1.75"
+                            class="loader__motion-medium"></circle>
+                        <circle transform="rotate(180,26,26)" r="24.5" cy="26" cx="26" stroke-width="1"
+                            class="loader__motion-thin"></circle>
+                    </g>
+                    <g transform="translate(13.75,9.25)" class="loader__model">
+                        <path
+                            d="M 1.5 2 L 23 2 C 23 2 22.5 8.5 19 12 C 16 15.5 13.5 13.5 13.5 16.75 C 13.5 20 16 18 19 21.5 C 22.5 25 23 31.5 23 31.5 L 1.5 31.5 C 1.5 31.5 2 25 5.5 21.5 C 8.5 18 11 20 11 16.75 C 11 13.5 8.5 15.5 5.5 12 C 2 8.5 1.5 2 1.5 2 Z"
+                            fill="hsl(var(--hue),90%,85%)"></path>
+
+                        <g stroke-linecap="round" stroke="hsl(35,90%,90%)">
+                            <line y2="20.75" x2="12" y1="15.75" x1="12" stroke-dasharray="0.25 33.75" stroke-width="1"
+                                class="loader__sand-grain-left"></line>
+                            <line y2="21.75" x2="12.5" y1="16.75" x1="12.5" stroke-dasharray="0.25 33.75"
+                                stroke-width="1" class="loader__sand-grain-right"></line>
+                            <line y2="31.5" x2="12.25" y1="18" x1="12.25" stroke-dasharray="0.5 107.5" stroke-width="1"
+                                class="loader__sand-drop"></line>
+                            <line y2="31.5" x2="12.25" y1="14.75" x1="12.25" stroke-dasharray="54 54" stroke-width="1.5"
+                                class="loader__sand-fill"></line>
+                            <line y2="31.5" x2="12" y1="16" x1="12" stroke-dasharray="1 107" stroke-width="1"
+                                stroke="hsl(35,90%,83%)" class="loader__sand-line-left"></line>
+                            <line y2="31.5" x2="12.5" y1="16" x1="12.5" stroke-dasharray="12 96" stroke-width="1"
+                                stroke="hsl(35,90%,83%)" class="loader__sand-line-right"></line>
+
+                            <g stroke-width="0" fill="hsl(35,90%,90%)">
+                                <path
+                                    d="M 12.25 15 L 15.392 13.486 C 21.737 11.168 22.5 2 22.5 2 L 2 2.013 C 2 2.013 2.753 11.046 9.009 13.438 L 12.25 15 Z"
+                                    clip-path="url(#sand-mound-top)"></path>
+                                <path
+                                    d="M 12.25 18.5 L 15.392 20.014 C 21.737 22.332 22.5 31.5 22.5 31.5 L 2 31.487 C 2 31.487 2.753 22.454 9.009 20.062 Z"
+                                    clip-path="url(#sand-mound-bottom)"></path>
+                            </g>
+                        </g>
+
+                        <g stroke-width="2" stroke-linecap="round" opacity="0.7" fill="none">
+                            <path
+                                d="M 19.437 3.421 C 19.437 3.421 19.671 6.454 17.914 8.846 C 16.157 11.238 14.5 11.5 14.5 11.5"
+                                stroke="hsl(0,0%,100%)" class="loader__glare-top"></path>
+                            <path transform="rotate(180,12.25,16.75)"
+                                d="M 19.437 3.421 C 19.437 3.421 19.671 6.454 17.914 8.846 C 16.157 11.238 14.5 11.5 14.5 11.5"
+                                stroke="hsla(0,0%,100%,0)" class="loader__glare-bottom"></path>
+                        </g>
+
+                        <rect height="2" width="24.5" fill="hsl(var(--hue),90%,50%)"></rect>
+                        <rect height="1" width="19.5" y="0.5" x="2.5" ry="0.5" rx="0.5"
+                            fill="hsl(var(--hue),90%,57.5%)"></rect>
+                        <rect height="2" width="24.5" y="31.5" fill="hsl(var(--hue),90%,50%)"></rect>
+                        <rect height="1" width="19.5" y="32" x="2.5" ry="0.5" rx="0.5" fill="hsl(var(--hue),90%,57.5%)">
+                        </rect>
+                    </g>
+                </g>
+            </svg>
+            <div class="loading-text">
+                <span class="loading-title">Loading Details</span>
+                <span class="loading-subtitle" id="loadingContentTitle">Please wait...</span>
+            </div>
+
+            <div class="loading-progress">
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+                <span class="progress-text">Fetching content details...</span>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- In browse.html, update script order -->
+    <!-- Load YouTube API -->
+    <script src="https://www.youtube.com/iframe_api"></script>
+
+    <!-- Load Player System FIRST -->
+
+    <!-- Then load your browse pages -->
+
+    <!-- Add this fallback script -->
+    <script>
+        // Ensure player functions are available
+        if (!window.VeluraPlayer) {
+            window.VeluraPlayer = {
+                openPlayer: function (tmdbId, type, season, episode, title) {
+                    const playData = btoa(JSON.stringify({
+                        id: tmdbId,
+                        type: type || 'movie',
+                        title: title || 'Movie'
+                    }));
+                    // ✅ UPDATED: Use Vite proxy path
+                    window.location.href = '/php/player/play.php?play=' + encodeURIComponent(playData);
+                }
+            };
+        }
+
+        // Override alert-based watch function
+        document.addEventListener('DOMContentLoaded', function () {
+            // Override any alert-based watch functions
+            const oldAlert = window.alert;
+            window.alert = function (msg) {
+                if (msg && msg.startsWith('Starting:')) {
+                    // This is a watch now alert - use player instead
+                    const title = msg.replace('Starting: ', '');
+                    const heroContainer = document.querySelector('.hero-container');
+                    const tmdbId = heroContainer?.dataset?.tmdbId;
+
+                    if (tmdbId && window.VeluraPlayer) {
+                        window.VeluraPlayer.openPlayer(tmdbId, 'movie', 1, 1, title);
+                        return;
+                    }
+                }
+                // Otherwise use normal alert
+                oldAlert(msg);
+            };
+        });
+    </script>
+</body>
+
+</html>

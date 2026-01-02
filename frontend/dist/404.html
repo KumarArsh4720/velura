@@ -1,0 +1,558 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found</title>
+    <link rel="icon" type="image/png" href="/assets/favicon.DFpwLE5M.webp">
+    <script>
+        // Client-side route validation
+        const validRoutes = ['/', '/auth', '/browse', '/account'];
+        const currentPath = window.location.pathname;
+
+        // If this is actually a valid route, redirect to it
+        if (validRoutes.includes(currentPath)) {
+            window.location.href = currentPath;
+        }
+
+        // If this is a .html version of valid route, redirect to clean URL
+        if (currentPath.endsWith('.html')) {
+            const cleanUrl = currentPath.replace('.html', '');
+            if (validRoutes.includes(cleanUrl)) {
+                window.location.href = cleanUrl;
+            }
+        }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Amarna:ital,wght@0,100..700;1,100..700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0d0d15;
+            color: #e0e0e0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .container {
+            text-align: center;
+            z-index: 10;
+            padding: 2rem;
+            max-width: 800px;
+        }
+
+        .error-code {
+            font-size: 8rem;
+            font-weight: 900;
+            color: transparent;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            margin-bottom: 1rem;
+            text-shadow: 0 0 30px rgba(106, 17, 203, 0.5);
+            position: relative;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+
+        .error-title {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+            font-weight: 300;
+            letter-spacing: 1px;
+            font-family: "Amarna", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 800;
+        }
+
+        .error-message {
+            font-size: 1.2rem;
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+            color: #b0b0b0;
+            max-width: 600px;
+            font-family: "Amarna", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 800;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(106, 17, 203, 0.4);
+            position: relative;
+            overflow: hidden;
+            font-family: "Amarna", sans-serif;
+            font-optical-sizing: auto;
+            font-weight: 800;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 7px 20px rgba(106, 17, 203, 0.6);
+        }
+
+        .cta-button:active {
+            transform: translateY(1px);
+        }
+
+        .cta-button::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .cta-button:hover::after {
+            left: 100%;
+        }
+
+        /* Background elements */
+
+        .bg-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image:
+                linear-gradient(rgba(20, 20, 40, 0.2) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(20, 20, 40, 0.2) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: 1;
+        }
+
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+        }
+
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.1;
+            filter: blur(40px);
+        }
+
+        .shape-1 {
+            width: 300px;
+            height: 300px;
+            background: #6a11cb;
+            top: 10%;
+            left: 10%;
+            animation: floatShape 15s ease-in-out infinite;
+        }
+
+        .shape-2 {
+            width: 200px;
+            height: 200px;
+            background: #2575fc;
+            bottom: 15%;
+            right: 15%;
+            animation: floatShape 18s ease-in-out infinite reverse;
+        }
+
+        .shape-3 {
+            width: 150px;
+            height: 150px;
+            background: #ff416c;
+            top: 50%;
+            left: 80%;
+            animation: floatShape 12s ease-in-out infinite;
+        }
+
+        @keyframes floatShape {
+
+            0%,
+            100% {
+                transform: translate(0, 0) rotate(0deg);
+            }
+
+            25% {
+                transform: translate(50px, -50px) rotate(90deg);
+            }
+
+            50% {
+                transform: translate(0, -100px) rotate(180deg);
+            }
+
+            75% {
+                transform: translate(-50px, -50px) rotate(270deg);
+            }
+        }
+
+        .scan-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #6a11cb, transparent);
+            animation: scan 3s linear infinite;
+            z-index: 3;
+        }
+
+        @keyframes scan {
+            0% {
+                top: 0;
+            }
+
+            100% {
+                top: 100%;
+            }
+        }
+
+        .glitch {
+            position: relative;
+        }
+
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .glitch::before {
+            left: 2px;
+            text-shadow: -2px 0 #ff416c;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim 5s infinite linear alternate-reverse;
+        }
+
+        .glitch::after {
+            left: -2px;
+            text-shadow: -2px 0 #2575fc;
+            clip: rect(44px, 450px, 56px, 0);
+            animation: glitch-anim2 5s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitch-anim {
+            0% {
+                clip: rect(42px, 9999px, 44px, 0);
+            }
+
+            5% {
+                clip: rect(12px, 9999px, 59px, 0);
+            }
+
+            10% {
+                clip: rect(48px, 9999px, 29px, 0);
+            }
+
+            15% {
+                clip: rect(42px, 9999px, 73px, 0);
+            }
+
+            20% {
+                clip: rect(63px, 9999px, 27px, 0);
+            }
+
+            25% {
+                clip: rect(34px, 9999px, 55px, 0);
+            }
+
+            30% {
+                clip: rect(86px, 9999px, 73px, 0);
+            }
+
+            35% {
+                clip: rect(20px, 9999px, 20px, 0);
+            }
+
+            40% {
+                clip: rect(26px, 9999px, 60px, 0);
+            }
+
+            45% {
+                clip: rect(25px, 9999px, 66px, 0);
+            }
+
+            50% {
+                clip: rect(57px, 9999px, 98px, 0);
+            }
+
+            55% {
+                clip: rect(5px, 9999px, 46px, 0);
+            }
+
+            60% {
+                clip: rect(82px, 9999px, 31px, 0);
+            }
+
+            65% {
+                clip: rect(54px, 9999px, 27px, 0);
+            }
+
+            70% {
+                clip: rect(28px, 9999px, 99px, 0);
+            }
+
+            75% {
+                clip: rect(45px, 9999px, 69px, 0);
+            }
+
+            80% {
+                clip: rect(23px, 9999px, 85px, 0);
+            }
+
+            85% {
+                clip: rect(54px, 9999px, 84px, 0);
+            }
+
+            90% {
+                clip: rect(45px, 9999px, 47px, 0);
+            }
+
+            95% {
+                clip: rect(37px, 9999px, 20px, 0);
+            }
+
+            100% {
+                clip: rect(4px, 9999px, 91px, 0);
+            }
+        }
+
+        @keyframes glitch-anim2 {
+            0% {
+                clip: rect(65px, 9999px, 100px, 0);
+            }
+
+            5% {
+                clip: rect(52px, 9999px, 74px, 0);
+            }
+
+            10% {
+                clip: rect(79px, 9999px, 85px, 0);
+            }
+
+            15% {
+                clip: rect(75px, 9999px, 5px, 0);
+            }
+
+            20% {
+                clip: rect(67px, 9999px, 61px, 0);
+            }
+
+            25% {
+                clip: rect(14px, 9999px, 79px, 0);
+            }
+
+            30% {
+                clip: rect(1px, 9999px, 66px, 0);
+            }
+
+            35% {
+                clip: rect(86px, 9999px, 30px, 0);
+            }
+
+            40% {
+                clip: rect(23px, 9999px, 98px, 0);
+            }
+
+            45% {
+                clip: rect(85px, 9999px, 72px, 0);
+            }
+
+            50% {
+                clip: rect(71px, 9999px, 75px, 0);
+            }
+
+            55% {
+                clip: rect(2px, 9999px, 48px, 0);
+            }
+
+            60% {
+                clip: rect(30px, 9999px, 16px, 0);
+            }
+
+            65% {
+                clip: rect(59px, 9999px, 50px, 0);
+            }
+
+            70% {
+                clip: rect(41px, 9999px, 62px, 0);
+            }
+
+            75% {
+                clip: rect(2px, 9999px, 82px, 0);
+            }
+
+            80% {
+                clip: rect(47px, 9999px, 73px, 0);
+            }
+
+            85% {
+                clip: rect(3px, 9999px, 27px, 0);
+            }
+
+            90% {
+                clip: rect(26px, 9999px, 55px, 0);
+            }
+
+            95% {
+                clip: rect(42px, 9999px, 97px, 0);
+            }
+
+            100% {
+                clip: rect(38px, 9999px, 49px, 0);
+            }
+        }
+
+        /* Responsive adjustments */
+
+        @media (max-width: 768px) {
+            .error-code {
+                font-size: 6rem;
+            }
+
+            .error-title {
+                font-size: 1.5rem;
+            }
+
+            .error-message {
+                font-size: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .error-code {
+                font-size: 4rem;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="bg-grid"></div>
+    <div class="floating-shapes">
+        <div class="shape shape-1"></div>
+        <div class="shape shape-2"></div>
+        <div class="shape shape-3"></div>
+    </div>
+    <div class="scan-line"></div>
+
+    <div class="container">
+        <h1 class="error-code glitch" data-text="404">404</h1>
+        <h2 class="error-title">Lost in the Digital Void</h2>
+        <p class="error-message">
+            The page you're looking for seems to have drifted into the unknown.
+            It might have been moved, deleted, or perhaps it never existed in this dimension.
+        </p>
+        <a href="/" class="cta-button">Return to Safety</a>
+    </div>
+
+    <script>
+        // Add some interactive elements
+        document.addEventListener('mousemove', (e) => {
+            const shapes = document.querySelectorAll('.shape');
+            const x = e.clientX / window.innerWidth;
+            const y = e.clientY / window.innerHeight;
+
+            shapes.forEach((shape, index) => {
+                const speed = (index + 1) * 0.5;
+                const xMove = (x - 0.5) * 20 * speed;
+                const yMove = (y - 0.5) * 20 * speed;
+
+                shape.style.transform = `translate(${xMove}px, ${yMove}px)`;
+            });
+        });
+
+        // Add particles on click
+        document.addEventListener('click', (e) => {
+            createParticles(e.clientX, e.clientY);
+        });
+
+        function createParticles(x, y) {
+            const colors = ['#6a11cb', '#2575fc', '#ff416c'];
+            const particleCount = 10;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                document.body.appendChild(particle);
+
+                const color = colors[Math.floor(Math.random() * colors.length)];
+                const size = Math.random() * 10 + 5;
+                const angle = Math.random() * Math.PI * 2;
+                const speed = Math.random() * 5 + 2;
+                const distance = Math.random() * 100 + 50;
+
+                particle.style.position = 'fixed';
+                particle.style.left = `${x}px`;
+                particle.style.top = `${y}px`;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.backgroundColor = color;
+                particle.style.borderRadius = '50%';
+                particle.style.pointerEvents = 'none';
+                particle.style.zIndex = '5';
+                particle.style.opacity = '0.7';
+
+                const animation = particle.animate([
+                    {
+                        transform: `translate(0, 0) scale(1)`,
+                        opacity: 0.7
+                    },
+                    {
+                        transform: `translate(${Math.cos(angle) * distance}px, ${Math.sin(angle) * distance}px) scale(0)`,
+                        opacity: 0
+                    }
+                ], {
+                    duration: Math.random() * 1000 + 500,
+                    easing: 'cubic-bezier(0.215, 0.61, 0.355, 1)'
+                });
+
+                animation.onfinish = () => {
+                    particle.remove();
+                };
+            }
+        }
+    </script>
+</body>
+
+</html>
